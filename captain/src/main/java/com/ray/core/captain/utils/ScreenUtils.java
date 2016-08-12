@@ -20,8 +20,8 @@ public class ScreenUtils {
     /**
      * 获得屏幕高度
      *
-     * @param context
-     * @return
+     * @param context context
+     * @return  获得屏幕高度
      */
     public static int getScreenWidth(Context context) {
         WindowManager wm = (WindowManager) context
@@ -34,8 +34,8 @@ public class ScreenUtils {
     /**
      * 获得屏幕宽度
      *
-     * @param context
-     * @return
+     * @param context context
+     * @return 获得屏幕宽度
      */
     public static int getScreenHeight(Context context) {
         WindowManager wm = (WindowManager) context
@@ -45,6 +45,11 @@ public class ScreenUtils {
         return outMetrics.heightPixels;
     }
 
+    /**
+     * 获得屏幕高度，减去状态栏的高度
+     * @param context context
+     * @return 获得屏幕高度，减去状态栏的高度
+     */
     public static int getScreenHeightNoStatus(Context context) {
         return getScreenHeight(context) - getStatusHeight(context);
     }
@@ -53,8 +58,8 @@ public class ScreenUtils {
     /**
      * 获得状态栏的高度
      *
-     * @param context
-     * @return
+     * @param context context
+     * @return 获得状态栏的高度
      */
     public static int getStatusHeight(Context context) {
 
@@ -74,8 +79,8 @@ public class ScreenUtils {
     /**
      * 获取当前屏幕截图，包含状态栏
      *
-     * @param activity
-     * @return
+     * @param activity activity
+     * @return 获取当前屏幕截图，包含状态栏
      */
     public static Bitmap snapShotWithStatusBar(Activity activity) {
         View view = activity.getWindow().getDecorView();
@@ -84,8 +89,7 @@ public class ScreenUtils {
         Bitmap bmp = view.getDrawingCache();
         int width = getScreenWidth(activity);
         int height = getScreenHeight(activity);
-        Bitmap bp = null;
-        bp = Bitmap.createBitmap(bmp, 0, 0, width, height);
+        Bitmap bp = Bitmap.createBitmap(bmp, 0, 0, width, height);
         view.destroyDrawingCache();
         return bp;
     }
@@ -93,8 +97,8 @@ public class ScreenUtils {
     /**
      * 获取当前屏幕截图，不包含状态栏
      *
-     * @param activity
-     * @return
+     * @param activity  activity
+     * @return 获取当前屏幕截图，不包含状态栏
      */
     public static Bitmap snapShotWithoutStatusBar(Activity activity) {
         View view = activity.getWindow().getDecorView();
@@ -107,8 +111,7 @@ public class ScreenUtils {
 
         int width = getScreenWidth(activity);
         int height = getScreenHeight(activity);
-        Bitmap bp = null;
-        bp = Bitmap.createBitmap(bmp, 0, statusBarHeight, width, height
+        Bitmap bp  = Bitmap.createBitmap(bmp, 0, statusBarHeight, width, height
                 - statusBarHeight);
         view.destroyDrawingCache();
         return bp;

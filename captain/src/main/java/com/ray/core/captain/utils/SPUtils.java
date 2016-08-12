@@ -3,35 +3,37 @@ package com.ray.core.captain.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * SharedPreferences 工具类
+ */
 public class SPUtils {
     /**
      * 保存在手机里面的文件名
      */
-    public static final String FILE_NAME = "im_share_data";
+    private static final String FILE_NAME = "sp_main_file";
     /**
      * 不清除的文件
      */
-    public static final String NO_CLEAR_FILE = "no_clear_file_share_data";
+    public static final String NO_CLEAR_FILE = "no_clear_file";
 
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
      * Append methods of putting Double values by chen.
      *
-     * @param context
-     * @param key
-     * @param object
+     * @param context context
+     * @param key 键
+     * @param object 值
      */
-    protected static void put(Context context, String key, Object object) {
+    public static void put(Context context, String key, Object object) {
         put(context, FILE_NAME, key, object);
     }
 
-    protected static void put(Context context, String fileName, String key, Object object) {
+    public static void put(Context context, String fileName, String key, Object object) {
         if (object == null)
             return;
         SharedPreferences sp = context.getSharedPreferences(fileName,
@@ -58,16 +60,21 @@ public class SPUtils {
         SharedPreferencesCompat.apply(editor);
     }
 
+
     /**
      * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
      * Append methods of getting Double values by chen.
      *
-     * @param context
-     * @param key
-     * @param defaultObject
-     * @return
+     * @param context context
+     * @param key 键
+     * @param defaultObject 默认值
+     * @return 返回值
      */
-    protected static Object get(Context context, String fileName, String key, Object defaultObject) {
+    public static Object get(Context context, String key, Object defaultObject) {
+        return get(context, FILE_NAME, key, defaultObject);
+    }
+
+    public static Object get(Context context, String fileName, String key, Object defaultObject) {
         SharedPreferences sp = context.getSharedPreferences(fileName,
                 Context.MODE_PRIVATE);
 
@@ -90,18 +97,18 @@ public class SPUtils {
         return null;
     }
 
-    protected static Object get(Context context, String key, Object defaultObject) {
-        return get(context, FILE_NAME, key, defaultObject);
-    }
-
 
     /**
      * 移除某个key值已经对应的值
      *
-     * @param context
-     * @param key
+     * @param context context
+     * @param key 键
      */
-    protected static void remove(Context context, String fileName, String key) {
+    public static void remove(Context context, String key) {
+        remove(context, FILE_NAME, key);
+    }
+
+    public static void remove(Context context, String fileName, String key) {
         SharedPreferences sp = context.getSharedPreferences(fileName,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -109,16 +116,16 @@ public class SPUtils {
         SharedPreferencesCompat.apply(editor);
     }
 
-    protected static void remove(Context context, String key) {
-        remove(context, FILE_NAME, key);
-    }
-
     /**
      * 清除所有数据
      *
-     * @param context
+     * @param context context
      */
-    protected static void clear(Context context, String fileName) {
+    public static void clear(Context context) {
+        clear(context, FILE_NAME);
+    }
+
+    public static void clear(Context context, String fileName) {
         SharedPreferences sp = context.getSharedPreferences(fileName,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -126,26 +133,25 @@ public class SPUtils {
         SharedPreferencesCompat.apply(editor);
     }
 
-    protected static void clear(Context context) {
-        clear(context, FILE_NAME);
-    }
-
     /**
      * 查询某个key是否已经存在
      *
-     * @param context
-     * @param key
-     * @return
+     * @param context context
+     * @param key 键
+     * @return true存在 ; false不存在
      */
-    protected static boolean contains(Context context, String fileName, String key) {
+    public static boolean contains(Context context, String key) {
+        return contains(context, FILE_NAME, key);
+    }
+
+    public static boolean contains(Context context, String fileName, String key) {
         SharedPreferences sp = context.getSharedPreferences(fileName,
                 Context.MODE_PRIVATE);
         return sp.contains(key);
     }
 
-    protected static boolean contains(Context context, String key) {
-        return contains(context, FILE_NAME, key);
-    }
+
+
 
     /**
      * 返回所有的键值对
@@ -153,23 +159,21 @@ public class SPUtils {
      * @param context
      * @return
      */
-    protected static Map<String, ?> getAll(Context context,String fileName) {
+    public static Map<String, ?> getAll(Context context) {
+        return getAll(context,FILE_NAME);
+    }
+
+    public static Map<String, ?> getAll(Context context,String fileName) {
         SharedPreferences sp = context.getSharedPreferences(fileName,
                 Context.MODE_PRIVATE);
         return sp.getAll();
     }
-
-    protected static Map<String, ?> getAll(Context context) {
-        return getAll(context,FILE_NAME);
-    }
-
-
         /**
          * 创建一个SharedPreferencesCompat解决apply方法的一个兼容类
          *
          * @author zhy
          */
-        protected static class SharedPreferencesCompat {
+        private static class SharedPreferencesCompat {
         private static final Method sApplyMethod = findApplyMethod();
 
         /**
@@ -177,11 +181,12 @@ public class SPUtils {
          *
          * @return Method
          */
-        protected static Method findApplyMethod() {
+        static Method findApplyMethod() {
             try {
                 Class clz = SharedPreferences.Editor.class;
                 return clz.getMethod("apply");
             } catch (NoSuchMethodException e) {
+                e.printStackTrace();
             }
             return null;
         }
@@ -191,15 +196,14 @@ public class SPUtils {
          *
          * @param editor
          */
-        protected static void apply(SharedPreferences.Editor editor) {
+        static void apply(SharedPreferences.Editor editor) {
             try {
                 if (sApplyMethod != null) {
                     sApplyMethod.invoke(editor);
                     return;
                 }
-            } catch (IllegalArgumentException e) {
-            } catch (IllegalAccessException e) {
-            } catch (InvocationTargetException e) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             editor.commit();
         }

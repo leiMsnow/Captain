@@ -53,7 +53,6 @@ public class HttpUtils {
      * @param urlStr
      * @param params
      * @param callBack
-     * @throws Exception
      */
     public static void doPostAsyn(final String urlStr, final String params,
                                   final CallBack callBack) throws Exception {
@@ -78,9 +77,8 @@ public class HttpUtils {
     /**
      * Get请求，获得返回数据
      *
-     * @param urlStr
-     * @return
-     * @throws Exception
+     * @param urlStr urlStr
+     * @return Get请求，获得返回数据
      */
     public static String doGet(String urlStr) {
         URL url = null;
@@ -117,26 +115,26 @@ public class HttpUtils {
                 if (is != null)
                     is.close();
             } catch (IOException e) {
+                e.printStackTrace();
             }
             try {
                 if (baos != null)
                     baos.close();
             } catch (IOException e) {
+                e.printStackTrace();
             }
-            conn.disconnect();
+            if (conn != null)
+                conn.disconnect();
         }
-
         return null;
-
     }
 
     /**
      * 向指定 URL 发送POST方法的请求
      *
      * @param url   发送请求的 URL
-     * @param param 请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
+     * @param param 请求参数
      * @return 所代表远程资源的响应结果
-     * @throws Exception
      */
     public static String doPost(String url, String param) {
         PrintWriter out = null;

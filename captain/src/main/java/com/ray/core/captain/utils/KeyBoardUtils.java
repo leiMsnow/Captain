@@ -55,8 +55,7 @@ public class KeyBoardUtils {
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
-
 }

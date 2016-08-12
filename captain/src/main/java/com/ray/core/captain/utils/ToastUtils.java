@@ -6,8 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.droid.treasures.R;
-
+import com.ray.core.captain.R;
 
 /**
  * 单例tost

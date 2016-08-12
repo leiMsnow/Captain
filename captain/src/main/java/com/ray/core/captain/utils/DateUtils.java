@@ -3,7 +3,7 @@ package com.ray.core.captain.utils;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.droid.treasures.R;
+import com.ray.core.captain.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,7 +18,7 @@ import java.util.TimeZone;
  */
 public class DateUtils {
 
-    public static final Date convertStringToDate(String aMask, String strDate)
+    public static Date convertStringToDate(String aMask, String strDate)
             throws ParseException {
         Date date = null;
         SimpleDateFormat df = new SimpleDateFormat(aMask);

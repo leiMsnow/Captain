@@ -19,16 +19,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Created by dangdang on 15/6/15.
+ *
+ * 图片辅助类
  */
 public class ImageUtils {
     /**
      * 创建水印效果
      *
-     * @param context
-     * @param src
-     * @param res
-     * @return
+     * @param context context
+     * @param src 原图片
+     * @param res 水印路径
+     * @return 返回新图片
      */
     public static Bitmap createWatermarkBitmap(Context context, Bitmap src, int res) {
         Bitmap watermark = BitmapFactory.decodeResource(context.getResources(), res);

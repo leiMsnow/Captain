@@ -19,8 +19,8 @@ public class NetUtils {
     /**
      * 判断网络是否连接
      *
-     * @param context
-     * @return
+     * @param context context
+     * @return 判断网络是否连接
      */
     public static boolean isConnected(Context context) {
 
@@ -45,11 +45,7 @@ public class NetUtils {
     public static boolean isWifi(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        if (cm == null)
-            return false;
-        return cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
-
+        return cm != null && cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
     }
 
     /**

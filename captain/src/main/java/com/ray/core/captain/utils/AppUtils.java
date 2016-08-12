@@ -1,9 +1,11 @@
 package com.ray.core.captain.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 
 /**
  * 跟App相关的辅助类
@@ -13,14 +15,13 @@ public class AppUtils {
     private AppUtils() {
         /* cannot be instantiated */
         throw new UnsupportedOperationException("cannot be instantiated");
-
     }
 
     /**
      * 获取系统版本号
      *
-     * @param context
-     * @return
+     * @param context context
+     * @return 获取系统版本号
      */
     public static int getAppVersion(Context context) {
         try {
@@ -35,6 +36,9 @@ public class AppUtils {
 
     /**
      * 获取应用程序名称
+     *
+     * @param context context
+     * @return 应用程序名称
      */
     public static String getAppName(Context context) {
         try {
@@ -52,7 +56,7 @@ public class AppUtils {
     /**
      * [获取应用程序版本名称信息]
      *
-     * @param context
+     * @param context context
      * @return 当前应用的版本名称
      */
     public static String getVersionName(Context context) {
@@ -68,6 +72,13 @@ public class AppUtils {
         return null;
     }
 
-
-
+    /**
+     * 发送短信
+     * @param context  context
+     */
+    public static void sendMsg(Context context) {
+        Uri smsToUri = Uri.parse("smsto:");
+        Intent intent = new Intent(Intent.ACTION_SENDTO, smsToUri);
+        context.startActivity(intent);
+    }
 }

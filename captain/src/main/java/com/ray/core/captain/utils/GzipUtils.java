@@ -14,6 +14,8 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public class GzipUtils {
+
+    private static String TAG = GzipUtils.class.getSimpleName();
     /**
      * 使用gzip进行压缩
      */
@@ -61,7 +63,7 @@ public class GzipUtils {
         String decompressed = null;
         try {
             compressed = Base64.decode(compressedStr, Base64.DEFAULT);
-//            print(compressed);
+            print(compressed);
             in = new ByteArrayInputStream(compressed);
             ginzip = new GZIPInputStream(in);
 
@@ -99,7 +101,7 @@ public class GzipUtils {
 
     private static void print(byte[] compressed) {
         for (byte b : compressed) {
-            LogUtils.d(String.format("%02X", b));
+            LogUtils.d(TAG,String.format("%02X", b));
         }
     }
 
