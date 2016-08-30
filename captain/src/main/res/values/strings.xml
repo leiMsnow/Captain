@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">captain</string>
     <string name="api_error">网络异常，请稍后重试</string>
 
     <string name="pd_loading">请稍后&#8230;</string>
