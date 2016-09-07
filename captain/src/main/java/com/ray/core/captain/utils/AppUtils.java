@@ -6,6 +6,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
+
+import java.util.UUID;
 
 /**
  * 跟App相关的辅助类
@@ -72,9 +76,43 @@ public class AppUtils {
         return null;
     }
 
+    public static String getIMSI(Context context) {
+        TelephonyManager mTelephonyMgr = (TelephonyManager)
+                context.getSystemService(Context.TELEPHONY_SERVICE);
+        return mTelephonyMgr.getSubscriberId();
+    }
+
+    public static String getIMEI(Context context) {
+        TelephonyManager mTelephonyMgr = (TelephonyManager)
+                context.getSystemService(Context.TELEPHONY_SERVICE);
+        return mTelephonyMgr.getDeviceId();
+    }
+
+    public static String getTelNumber(Context context) {
+        TelephonyManager mTelephonyMgr = (TelephonyManager)
+                context.getSystemService(Context.TELEPHONY_SERVICE);
+        return mTelephonyMgr.getLine1Number();
+    }
+
+    public static String getSerialNumber(Context context) {
+        TelephonyManager mTelephonyMgr = (TelephonyManager)
+                context.getSystemService(Context.TELEPHONY_SERVICE);
+        return mTelephonyMgr.getSimSerialNumber();
+    }
+
+    public static String getUUID(Context context) {
+        String androidId = android.provider.Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        UUID deiceUUID = new UUID(androidId.hashCode(), ((long) getIMEI(context).hashCode() << 32) |
+                getSerialNumber(context).hashCode());
+        return deiceUUID.toString();
+    }
+
+
     /**
      * 发送短信
-     * @param context  context
+     *
+     * @param context context
      */
     public static void sendMsg(Context context) {
         Uri smsToUri = Uri.parse("smsto:");
